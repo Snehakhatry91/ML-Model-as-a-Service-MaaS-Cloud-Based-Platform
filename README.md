@@ -1,4 +1,4 @@
-Markdown# ML Model as a Service (MaaS) – Cloud-Based Platform
+ ML Model as a Service (MaaS) – Cloud-Based Platform
 
 **FastAPI • Python • Docker • JWT Secured**  
 A complete **Machine Learning as a Service** platform that lets you train, version, store, and serve ML models using simple, secure REST APIs — full MLOps experience in one lightweight project!
