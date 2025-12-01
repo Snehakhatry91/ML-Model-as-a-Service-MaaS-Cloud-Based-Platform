@@ -1,183 +1,103 @@
-# ML Model as a Service Platform (MaaS)
+Markdown# ML Model as a Service (MaaS) – Cloud-Based Platform
 
-A cloud-ready **Machine Learning Model as a Service (MaaS)** platform built using **FastAPI**, designed to train, store, version, and serve ML models through simple REST APIs.  
-This platform represents a real-world MLOps-style architecture.
+**FastAPI • Python • Docker • JWT Secured**  
+A complete **Machine Learning as a Service** platform that lets you train, version, store, and serve ML models using simple, secure REST APIs — full MLOps experience in one lightweight project!
 
----
-
-## 🚀 Overview
-
-This MaaS platform enables:
-
-- Train ML models using CSV datasets  
-- Auto-save trained models as `.pkl`  
-- Get accuracy score after training  
-- Perform predictions using deployed models  
-- Maintain model registry with versioning  
-- Authenticate using JWT tokens  
-- Deploy easily on cloud or Docker  
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.11%2B-blue?style=for-the-badge&logo=python&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-Secured-success?style=for-the-badge&logo=jsonwebtokens)
 
 ---
 
-## 📁 Project Structure
+## Features
 
-ml_maas_platform/
-├── main.py # FastAPI entrypoint
-├── auth.py # JWT authentication logic
-├── schemas.py # Pydantic request models
-├── trainer.py # Model training engine
-├── predictor.py # Prediction engine
-├── preprocessing.py # Feature preprocessing pipeline
-├── storage.py # Model save/load handler
-├── registry.py # Model registry system
-├── requirements.txt # Dependencies
-└── README.md # Documentation
-
-markdown
-Copy code
+- Secure JWT Authentication for all endpoints  
+- Train Random Forest models from CSV with a single API call  
+- Automatic train/test split & accuracy reporting  
+- Auto-save trained models as `.pkl` with versioning  
+- Real-time prediction API with built-in preprocessing  
+- StandardScaler pipeline applied automatically  
+- Full model registry (name → version → path → timestamp)  
+- Clean, modular, production-ready code structure  
+- Docker support out of the box  
+- Ready for cloud deployment (Render, Railway, AWS, GCP, Azure, etc.)
 
 ---
 
-## ✨ Features
+## Project Structure
 
-### 🔐 Authentication
-- API-level JWT token security  
-- Protect model operations  
-
-### 🎯 Train Models (API Based)
-- Accept CSV path  
-- Auto split training/testing  
-- Train Random Forest model  
-- Return accuracy  
-- Save model to `models/` folder  
-
-### 🤖 Prediction Engine
-- Predict using saved model  
-- Automatic preprocessing (StandardScaler)  
-
-### 📦 Model Registry
-- Store model version  
-- Path and timestamp tracking  
-- Useful for cloud-based model management  
-
-### ⚙ Modular System
-- Trainer  
-- Predictor  
-- Storage  
-- Registry  
-- Preprocessing  
-
----
-
-## 🛠 Installation
-
-### 1️⃣ Clone Project
 ```bash
-git clone <your_repo_url>
+ml_maas_platform/
+├── main.py              # FastAPI application entrypoint
+├── auth.py              # JWT authentication & token management
+├── schemas.py           # Pydantic models for request/response validation
+├── trainer.py           # Model training logic (Random Forest)
+├── predictor.py         # Inference engine
+├── preprocessing.py     # StandardScaler pipeline
+├── storage.py           # Save/load model utilities
+├── registry.py          # Model registry & versioning system
+├── requirements.txt     # Python dependencies
+├── Dockerfile           # Docker configuration
+└── README.md            # Project documentation
+
+Quick Start (Runs in 2 minutes)
+Bashgit clone https://github.com/yourusername/ml_maas_platform.git
 cd ml_maas_platform
-2️⃣ Create Virtual Environment
-bash
-Copy code
+
 python -m venv venv
-3️⃣ Activate Environment
-CMD
-
-bash
-Copy code
+# Windows
 venv\Scripts\activate
-PowerShell
+# Linux / Mac
+source venv/bin/activate
 
-bash
-Copy code
-.\venv\Scripts\Activate.ps1
-4️⃣ Install Dependencies
-bash
-Copy code
 pip install -r requirements.txt
-5️⃣ Run API Server
-bash
-Copy code
+
 uvicorn main:app --reload
-6️⃣ Open Interactive API Docs
-👉 http://127.0.0.1:8000/docs
+Open interactive docs → http://127.0.0.1:8000/docs
 
-🧪 Example API Usage
-🔑 Get Token
-POST /login
-
-json
-Copy code
+API Endpoints
+1. Get JWT Token
+httpPOST /login
 {
-  "token": "<your-jwt-token>"
+  "username": "admin",
+  "password": "admin"
 }
-🎯 Train Model
-POST /train
+2. Train a Model
+httpPOST /train
+Authorization: Bearer <your-token>
 
-json
-Copy code
 {
   "model_name": "iris_model",
   "csv_path": "data/iris.csv",
   "target": "species"
 }
-Response
+3. Predict
+httpPOST /predict
+Authorization: Bearer <your-token>
 
-json
-Copy code
-{
-  "model_name": "iris_model",
-  "accuracy": 0.94
-}
-🤖 Predict
-POST /predict
-
-json
-Copy code
 {
   "model_name": "iris_model",
   "features": [5.1, 3.5, 1.4, 0.2]
 }
-Response
+4. List All Models
+httpGET /models
+Authorization: Bearer <your-token>
 
-json
-Copy code
-{
-  "model": "iris_model",
-  "prediction": "setosa"
-}
-📚 List All Models
-GET /models
+Docker Deployment
+Bashdocker build -t ml-maas .
+docker run -d -p 8000:8000 ml-maas
+API available at → http://localhost:8000
 
-json
-Copy code
-{
-  "iris_model": {
-    "version": "v1",
-    "path": "models/iris_model.pkl",
-    "timestamp": "2025-12-01 17:22:00"
-  }
-}
-🐳 Docker Deployment
-Build Image
-bash
-Copy code
-docker build -t ml-maas .
-Run Container
-bash
-Copy code
-docker run -p 8000:8000 ml-maas
-🌩 Cloud Deployment Options
-Render
+One-Click Cloud Deployment
 
-Railway
-
-AWS EC2 / Lambda
-
-Azure App Service
-
+Render (free tier)
+Railway (free tier)
 Google Cloud Run
+AWS ECS / EC2 / Lambda + Container
+Azure Container Apps
+Kubernetes
 
-Docker Swarm / Kubernetes
 
-📜 License
-Free to use for learning, research, and development.
+License
+Completely free for learning, research, personal projects, and commercial use — no restrictions!
